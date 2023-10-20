@@ -1,0 +1,18 @@
+
+services:
+    app:
+        build:
+            target: develop
+            args:
+                HOST_UID: 501
+        volumes:
+            - "./php/assets/xdebug.ini:/usr/local/etc/php/conf.d/zz-xdebug.ini"
+            - "./php/assets/php.ini:/usr/local/etc/php/conf.d/php.ini"
+
+    nginx:
+        ports:
+            - "127.0.0.1:80:80"
+
+    mysql:
+        ports:
+            - "127.0.0.1:3307:3306"
