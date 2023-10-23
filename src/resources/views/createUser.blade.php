@@ -60,7 +60,7 @@
                 if (data.errors) {
                     showErrors(data.errors);
                 } else {
-                    localStorage.setItem('message', 'Employee successfully created');
+                    localStorage.setItem('message', 'User successfully created');
                     window.location.href = "{{ route('users') }}";
                 }
             })

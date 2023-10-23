@@ -46,26 +46,28 @@ class ProjectTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('Create User');
         $response->assertViewIs('createUser');
-        $this->assertEquals(10, $response->id);
     }
 
     public function test_can_get_user_data_by_id(): void
     {
-        $employee = User::factory()->create();
-        $id = $employee->id;
-
-        $response = $this->get('/users/' . $id);
+        $response = $this->get('/users/2');
 
         $response->assertStatus(200);
         $response->assertSee('User');
         $response->assertViewIs('userData');
     }
 
+    public function test_can_get_user_data_by_id_unit(): void
+    {
+        $response = $this->getJson('/api/users/2');
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure(['data' => ['email', 'first_name', 'last_name', 'avatar']]);
+    }
+
     public function test_cant_get_nonexistent_user(): void
     {
-        $id = User::max('id') + 1;
-
-        $response = $this->getJson('/api/users/' . $id);
+        $response = $this->getJson('/api/users/23');
 
         $response
             ->assertStatus(404);

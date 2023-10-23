@@ -16,5 +16,5 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::post('/users', [UserController::class, 'create'])->name('create');
-Route::get('/users/{id}', [UserController::class, 'getId'])->name('getById');
+Route::get('/users/{id}', [UserController::class, 'getById'])->name('getById');
 Route::get('/users', [UserController::class, 'getAll'])->name('getAll');

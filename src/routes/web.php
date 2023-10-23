@@ -16,4 +16,4 @@ use Illuminate\Support\Facades\Route;
 Route::view('/users', 'usersList')->name('users');
 Route::view('/', 'usersList');
 Route::view('/users/create', 'createUser')->name('createPage');
-
+Route::view('/users/{id}', 'userData')->name('userData');
