@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-Route::post('/users', [UserController::class, 'create'])->name('create');
-Route::get('/users/{id}', [UserController::class, 'getById'])->name('getById');
 Route::get('/users', [UserController::class, 'getAll'])->name('getAll');
+Route::post('/users', [UserController::class, 'create'])->name('create');
+Route::get('/users/{id}', [UserController::class, 'getById'])->name('getById')
+    ->where('id', '[0-9]+');

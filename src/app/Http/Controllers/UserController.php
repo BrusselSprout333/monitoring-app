@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,14 +22,16 @@ class UserController extends Controller
             'job' => $job
         ]);
 
-        return new JsonResponse(['id' => $response->json('id')], 201);
+        return new JsonResponse(['id' => $response->json('id')], Response::HTTP_CREATED);
     }
 
-    public function getAll(): JsonResponse
+    public function getAll(Request $request): JsonResponse
     {
-        $response = Http::get($this->apiUrl);
+        $page = $request->query('page');
 
-        return $response->json();
+        $response = Http::get($this->apiUrl . '?page=' . $page);
+
+        return new JsonResponse($response->json(), Response::HTTP_OK);
     }
 
     public function getById(int $id): JsonResponse

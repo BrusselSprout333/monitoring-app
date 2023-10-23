@@ -13,10 +13,11 @@
     <h2>User</h2>
 
     <div hidden id="userId">{{ request()->route('id') }}</div>
-    <img alt="User photo" id="avatar" style="margin-bottom: 20px">
+    <img src="" alt="User photo" id="avatar" style="margin-bottom: 20px">
     <p id="name"></p>
     <p id="email"></p>
 
+    <a href="{{ route('users') }}" class="btn btn-secondary">Back</a>
 </div>
 
 <script>
