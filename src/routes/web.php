@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/users', 'usersList')->name('users');
+Route::view('/', 'usersList');
+Route::view('/users/create', 'createUser')->name('createPage');
+
