@@ -28,13 +28,14 @@
             if(response.status === 404) {
                 localStorage.setItem('error', 'User not found');
                 window.location.href = "{{ route('users') }}";
+            } else if(response.status >= 500) {
+                alert('Some error occurred with our server. Please, try again later.');
+                return Promise.reject('Server Error');
             } else {
                 return response.json();
             }
         })
-        .then(data => {
-            const user = data.data;
-
+        .then(user => {
             document.getElementById('avatar').src = user.avatar;
             document.getElementById('name').textContent = user.first_name;
             document.getElementById('name').textContent += ' ' + user.last_name;

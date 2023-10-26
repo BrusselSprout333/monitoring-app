@@ -2,24 +2,31 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+class User extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'job'
     ];
 
-    public $timestamps = false;
+    protected $attributes = [
+        'id',
+        'email',
+        'first_name',
+        'last_name',
+        'avatar'
+    ];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->attributes['id'] = $attributes['id'];
+        $this->attributes['email'] = $attributes['email'];
+        $this->attributes['first_name'] = $attributes['first_name'];
+        $this->attributes['last_name'] = $attributes['last_name'];
+        $this->attributes['avatar'] = $attributes['avatar'];
+    }
 }

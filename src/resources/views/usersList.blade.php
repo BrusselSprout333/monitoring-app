@@ -71,13 +71,19 @@
             'Content-Type': 'application/json'
         }
     })
-        .then(response => response.json())
+        .then(response => {
+            if(response.status >= 500) {
+                alert('Some error occurred with our server. Please, try again later.');
+                return Promise.reject('Server Error');
+            } else {
+                return response.json();
+            }
+        })
         .then(data => {
-            const users = data.data;
-            createContent(users);
+            createContent(data.users);
 
             document.getElementById('prevButton').disabled = page === 1;
-            document.getElementById('nextButton').disabled = page === data.total_pages;
+            document.getElementById('nextButton').disabled = !data.hasMorePages;
         })
         .catch(error => {
             console.error('Error:', error);

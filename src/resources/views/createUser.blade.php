@@ -55,7 +55,14 @@
             },
             body: JSON.stringify(Object.fromEntries(formData))
         })
-            .then(response => response.json())
+            .then(response => {
+                if(response.status >= 500) {
+                    alert('Some error occurred with our server. Please, try again later.');
+                    return Promise.reject('Server Error');
+                } else {
+                    return response.json();
+                }
+            })
             .then(data => {
                 if (data.errors) {
                     showErrors(data.errors);
