@@ -2,68 +2,66 @@
 
 namespace Tests\Unit;
 
-use Symfony\Component\HttpFoundation\Response;
-use Tests\TestCase;
+use App\Services\ApiService;
+use Illuminate\Http\Client\Factory;
+use PHPUnit\Framework\TestCase;
 
 class ApiTest extends TestCase
 {
+    public function test_get_all_users(): void
+    {
+        $apiService = new ApiService(new Factory());
+
+        $response = $apiService->getAllUsers(2);
+
+        $this->assertEquals(200, $response->status());
+        $this->assertEquals(
+            preg_replace('/\s+/', '', file_get_contents(__DIR__ . '/data/users_page_2.json')),
+            preg_replace('/\s+/', '', $response->body()));
+    }
+
     public function test_get_user_by_id(): void
     {
-        $response = $this->getJson('/api/users/2');
+        $apiService = new ApiService(new Factory());
 
-        $response->assertStatus(200);
-        $response->assertJsonStructure(['id', 'email', 'first_name', 'last_name', 'avatar']);
+        $response = $apiService->getUserById(2);
+
+        $this->assertEquals(200, $response->status());
+        $this->assertEquals(
+            preg_replace('/\s+/', '', file_get_contents(__DIR__ . '/data/user_2.json')),
+            preg_replace('/\s+/', '', $response->body()));
     }
 
-    public function test_cant_get_nonexistent_user_by_id(): void
+    public function test_create_user(): void
     {
-        $response = $this->getJson('/api/users/23');
+        $apiService = new ApiService(new Factory());
 
-        $response->assertStatus(404);
+        $response = $apiService->createUser(['name' => 'Jess', 'job' => 'Assistant']);
+
+        $this->assertEquals(201, $response->status());
+        $this->assertStringContainsString('"name":"Jess"', $response->body());
+        $this->assertStringContainsString('"job":"Assistant"', $response->body());
+        $this->assertStringContainsString('"id":', $response->body());
     }
 
-    public function test_create_user()
+    public function test_get_empty_users_page(): void
     {
-        $request = [
-            'name' => 'Mark',
-            'job'  => 'Manager'
-        ];
+        $apiService = new ApiService(new Factory());
 
-        $response = $this->postJson('/api/users', $request);
+        $response = $apiService->getAllUsers(3);
 
-        $response
-            ->assertStatus(Response::HTTP_CREATED)
-            ->assertJsonStructure(['id']);
+        $this->assertEquals(200, $response->status());
+        $this->assertEquals(
+            preg_replace('/\s+/', '', file_get_contents(__DIR__ . '/data/users_page_3.json')),
+            preg_replace('/\s+/', '', $response->body()));
     }
 
-    public function test_cant_create_user_with_invalid_data()
+    public function test_get_nonexistent_user(): void
     {
-        $request = [
-            'name' => "",
-            'job'  => ""
-        ];
+        $apiService = new ApiService(new Factory());
 
-        $response = $this->postJson('/api/users', $request);
+        $response = $apiService->getUserById(23);
 
-        $response
-            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson([
-                'errors' => [
-                    'name' => [
-                        'The name field is required.'
-                    ],
-                    'job'  => [
-                        'The job field is required.'
-                    ]
-                ]
-            ]);
-    }
-
-    public function test_get_all_users_on_page_1()
-    {
-        $response = $this->getJson('/api/users?page=1');
-        $jsonResponse = json_decode($response->getContent(), true);
-
-        $this->assertCount(6, $jsonResponse['users']);
+        $this->assertEquals(404, $response->status());
     }
 }

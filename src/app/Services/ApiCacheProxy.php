@@ -26,7 +26,7 @@ class ApiCacheProxy implements ApiServiceInterface
 
         $originalResponse = $this->apiService->getAllUsers($page);
 
-        Cache::put($cacheKey, $originalResponse->body(), now()->addMinutes(20));
+        Cache::put($cacheKey, $originalResponse->body(), 20);
 
         return $originalResponse;
     }
@@ -43,7 +43,7 @@ class ApiCacheProxy implements ApiServiceInterface
 
         $originalResponse = $this->apiService->getUserById($id);
 
-        Cache::put($cacheKey, $originalResponse->body(), now()->addMinutes(20));
+        Cache::put($cacheKey, $originalResponse->body(), 20);
 
         return $originalResponse;
     }

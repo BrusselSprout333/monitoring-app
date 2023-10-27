@@ -4,24 +4,28 @@ namespace App\Services;
 
 use App\Interfaces\ApiServiceInterface;
 use Illuminate\Http\Client\Response;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Client\Factory as HttpClient;
 
 class ApiService implements ApiServiceInterface
 {
     private string $apiUrl = 'https://reqres.in/api/users';
 
+    public function __construct(protected HttpClient $httpClient)
+    {
+    }
+
     public function getAllUsers(int $page): Response
     {
-        return Http::get($this->apiUrl . '?page=' . $page);
+        return $this->httpClient->get($this->apiUrl . '?page=' . $page);
     }
 
     public function getUserById(int $id): Response
     {
-        return Http::get($this->apiUrl . '/' . $id);
+        return $this->httpClient->get($this->apiUrl . '/' . $id);
     }
 
     public function createUser(array $params): Response
     {
-        return Http::get($this->apiUrl, $params);
+        return $this->httpClient->post($this->apiUrl, $params);
     }
 }

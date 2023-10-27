@@ -1,0 +1,26 @@
+{
+"data": [
+    {
+        "id": 1,
+        "email": "laura.lawson@reqres.in",
+        "first_name": "Laurs",
+        "last_name": "Lawson",
+        "avatar": "https://reqres.in/img/faces/7-image.jpg"
+    },
+    {
+        "id": 8,
+        "email": "mike.ferguson@reqres.in",
+        "first_name": "Mike",
+        "last_name": "Ferguson",
+        "avatar": "https://reqres.in/img/faces/8-image.jpg"
+    },
+    {
+        "id": 9,
+        "email": "george.funke@reqres.in",
+        "first_name": "George",
+        "last_name": "Funke",
+        "avatar": "https://reqres.in/img/faces/9-image.jpg"
+    }
+],
+"total_pages": 2
+}

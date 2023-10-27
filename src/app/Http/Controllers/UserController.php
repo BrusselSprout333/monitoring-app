@@ -8,7 +8,6 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
@@ -30,7 +29,7 @@ class UserController extends Controller
             return response()->json(status: $response->status());
         }
 
-        return new JsonResponse(['id' => $response->json('id')], Response::HTTP_CREATED);
+        return response()->json(['id' => $response->json('id')], $response->status());
     }
 
     public function getAll(Request $request): JsonResponse
@@ -49,7 +48,7 @@ class UserController extends Controller
         $collection = $this->collectUsers($usersData);
         $paginatedCollection = $this->paginateUsers($collection, $page, $lastPage);
 
-        return new JsonResponse($paginatedCollection, $response->status());
+        return response()->json($paginatedCollection);
     }
 
     public function getById(int $id): JsonResponse
@@ -64,7 +63,7 @@ class UserController extends Controller
 
         $user = new User($userData);
 
-        return new JsonResponse($user->jsonSerialize(), $response->status());
+        return response()->json($user->jsonSerialize());
     }
 
     private function collectUsers(array $users): Collection
