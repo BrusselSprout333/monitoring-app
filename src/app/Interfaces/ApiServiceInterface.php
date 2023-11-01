@@ -2,13 +2,13 @@
 
 namespace App\Interfaces;
 
-use Illuminate\Http\Client\Response;
+use Psr\Http\Message\ResponseInterface;
 
 interface ApiServiceInterface
 {
-    public function getAllUsers(int $page): Response;
+    public function getAllUsers(int $page): ResponseInterface;
 
-    public function getUserById(int $id): Response;
+    public function getUserById(int $id): ResponseInterface;
 
-    public function createUser(array $params): Response;
+    public function createUser(array $params): ResponseInterface;
 }

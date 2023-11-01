@@ -3,29 +3,33 @@
 namespace App\Services;
 
 use App\Interfaces\ApiServiceInterface;
-use Illuminate\Http\Client\Response;
-use Illuminate\Http\Client\Factory as HttpClient;
+use GuzzleHttp\Psr7\Request;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class ApiService implements ApiServiceInterface
 {
     private string $apiUrl = 'https://reqres.in/api/users';
 
-    public function __construct(protected HttpClient $httpClient)
+    public function __construct(protected ClientInterface $client)
     {
     }
 
-    public function getAllUsers(int $page): Response
+    public function getAllUsers(int $page): ResponseInterface
     {
-        return $this->httpClient->get($this->apiUrl . '?page=' . $page);
+        return $this->client->sendRequest(new Request('GET', $this->apiUrl . '?page=' . $page));
     }
 
-    public function getUserById(int $id): Response
+    public function getUserById(int $id): ResponseInterface
     {
-        return $this->httpClient->get($this->apiUrl . '/' . $id);
+        return $this->client->sendRequest(new Request('GET', $this->apiUrl . '/' . $id));
     }
 
-    public function createUser(array $params): Response
+    public function createUser(array $params): ResponseInterface
     {
-        return $this->httpClient->post($this->apiUrl, $params);
+        return $this->client->sendRequest(new Request('POST', $this->apiUrl, [
+                'Content-Type' => 'application/json',
+            ], json_encode($params))
+        );
     }
 }

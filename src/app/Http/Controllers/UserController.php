@@ -7,7 +7,8 @@ use App\Interfaces\ApiServiceInterface;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
+use Ds\Collection;
+use Ds\Set;
 
 class UserController extends Controller
 {
@@ -17,19 +18,20 @@ class UserController extends Controller
 
     public function create(StoreUserRequest $request): JsonResponse
     {
-        $name = $request->getName();
-        $job = $request->getJob();
+        $userData = [
+            'name' => $request->getName(),
+            'job' => $request->getJob(),
+        ];
 
-        $response = $this->apiService->createUser([
-            'name' => $name,
-            'job' => $job
-        ]);
+        $response = $this->apiService->createUser($userData);
 
-        if (!$response->successful()) {
-            return response()->json(status: $response->status());
+        if (!$this->isSuccessful($response->getStatusCode())) {
+            return response()->json(status: $response->getStatusCode());
         }
 
-        return response()->json(['id' => $response->json('id')], $response->status());
+        $responseContent = $response->getBody()->getContents();
+
+        return response()->json(['id' => (int)json_decode($responseContent)->id], $response->getStatusCode());
     }
 
     public function getAll(Request $request): JsonResponse
@@ -38,12 +40,13 @@ class UserController extends Controller
 
         $response = $this->apiService->getAllUsers($page);
 
-        if (!$response->successful()) {
-            return response()->json(status: $response->status());
+        if (!$this->isSuccessful($response->getStatusCode())) {
+            return response()->json(status: $response->getStatusCode());
         }
 
-        $usersData = $response->json()['data'];
-        $lastPage = $response->json()['total_pages'];
+        $responseContent = $response->getBody()->getContents();
+        $usersData = json_decode($responseContent)->data;
+        $lastPage = json_decode($responseContent)->total_pages;
 
         $collection = $this->collectUsers($usersData);
         $paginatedCollection = $this->paginateUsers($collection, $page, $lastPage);
@@ -55,22 +58,21 @@ class UserController extends Controller
     {
         $response = $this->apiService->getUserById($id);
 
-        if (!$response->successful()) {
-            return response()->json(status: $response->status());
+        if (!$this->isSuccessful($response->getStatusCode())) {
+            return response()->json(status: $response->getStatusCode());
         }
 
-        $userData = $response->json()['data'];
+        $responseContent = $response->getBody()->getContents();
+        $userData = get_object_vars(json_decode($responseContent)->data);
 
         $user = new User($userData);
 
         return response()->json($user->jsonSerialize());
     }
 
-    private function collectUsers(array $users): Collection
+    private function collectUsers(iterable $users): Collection
     {
-        return collect($users)->map(function ($user) {
-            return new User($user);
-        });
+        return new Set($users);
     }
 
     private function paginateUsers(Collection $users, int $page, int $lastPage): array
@@ -80,5 +82,10 @@ class UserController extends Controller
             'hasMorePages' => $page < $lastPage,
             'nextPage' => $page + 1
         ];
+    }
+
+    private function isSuccessful(int $status): bool
+    {
+        return $status >= 200 && $status < 300;
     }
 }

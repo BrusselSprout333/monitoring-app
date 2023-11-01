@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use App\Cache\Cache;
 use App\Services\ApiCacheProxy;
 use App\Services\ApiService;
-use Illuminate\Http\Client\Response;
+use Psr\Http\Message\ResponseInterface;
 use Tests\TestCase;
 
 class ApiCacheProxyTest extends TestCase
@@ -25,11 +25,11 @@ class ApiCacheProxyTest extends TestCase
 
         $response = $apiCacheProxy->getAllUsers(2);
 
-        $this->assertEquals(200, $response->status());
-        $this->assertInstanceOf(Response::class, $response);
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertInstanceOf(ResponseInterface::class, $response);
         $this->assertEquals(
             preg_replace('/\s+/', '', file_get_contents(__DIR__ . '/data/users_page_2.json')),
-            preg_replace('/\s+/', '', $response->body()));
+            preg_replace('/\s+/', '', $response->getBody()->getContents()));
     }
 
     public function test_get_all_users_from_origin(): void
@@ -38,11 +38,10 @@ class ApiCacheProxyTest extends TestCase
         $apiService->expects($this->once())
             ->method('getAllUsers')
             ->with(2)
-            ->willReturn(new Response(
-                new \GuzzleHttp\Psr7\Response(
+            ->willReturn(new \GuzzleHttp\Psr7\Response(
                     body: file_get_contents(__DIR__ . '/data/users_page_2.json')
                 )
-            ));
+            );
 
         $cache = $this->createMock(Cache::class);
         $cache->expects($this->once())
@@ -59,11 +58,11 @@ class ApiCacheProxyTest extends TestCase
 
         $response = $apiCacheProxy->getAllUsers(2);
 
-        $this->assertEquals(200, $response->status());
-        $this->assertInstanceOf(Response::class, $response);
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertInstanceOf(ResponseInterface::class, $response);
         $this->assertEquals(
             preg_replace('/\s+/', '', file_get_contents(__DIR__ . '/data/users_page_2.json')),
-            preg_replace('/\s+/', '', $response->body()));
+            preg_replace('/\s+/', '', $response->getBody()->getContents()));
     }
 
     public function test_get_user_by_id_from_cache(): void
@@ -81,11 +80,11 @@ class ApiCacheProxyTest extends TestCase
 
         $response = $apiCacheProxy->getUserById(2);
 
-        $this->assertEquals(200, $response->status());
-        $this->assertInstanceOf(Response::class, $response);
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertInstanceOf(ResponseInterface::class, $response);
         $this->assertEquals(
             preg_replace('/\s+/', '', file_get_contents(__DIR__ . '/data/user_2.json')),
-            preg_replace('/\s+/', '', $response->body()));
+            preg_replace('/\s+/', '', $response->getBody()->getContents()));
     }
 
     public function test_get_user_bu_id_from_origin(): void
@@ -94,11 +93,10 @@ class ApiCacheProxyTest extends TestCase
         $apiService->expects($this->once())
             ->method('getUserById')
             ->with(2)
-            ->willReturn(new Response(
-                new \GuzzleHttp\Psr7\Response(
+            ->willReturn(new \GuzzleHttp\Psr7\Response(
                     body: file_get_contents(__DIR__ . '/data/user_2.json')
                 )
-            ));
+            );
 
         $cache = $this->createMock(Cache::class);
         $cache->expects($this->once())
@@ -115,10 +113,10 @@ class ApiCacheProxyTest extends TestCase
 
         $response = $apiCacheProxy->getUserById(2);
 
-        $this->assertEquals(200, $response->status());
-        $this->assertInstanceOf(Response::class, $response);
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertInstanceOf(ResponseInterface::class, $response);
         $this->assertEquals(
             preg_replace('/\s+/', '', file_get_contents(__DIR__ . '/data/user_2.json')),
-            preg_replace('/\s+/', '', $response->body()));
+            preg_replace('/\s+/', '', $response->getBody()->getContents()));
     }
 }

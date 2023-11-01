@@ -4,7 +4,9 @@ namespace App\Services;
 
 use App\Interfaces\ApiServiceInterface;
 use App\Logger\Logger;
-use Illuminate\Http\Client\Response;
+use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\HttpFoundation\Response as ResponseCodes;
 
 class ApiErrorHandlingProxy implements ApiServiceInterface
 {
@@ -14,36 +16,36 @@ class ApiErrorHandlingProxy implements ApiServiceInterface
     ) {
     }
 
-    public function getAllUsers(int $page): Response
+    public function getAllUsers(int $page): ResponseInterface
     {
         try {
             return $this->apiService->getAllUsers($page);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->logger->critical('Error calling external API: ' . $e->getMessage());
 
-            return new Response(new \GuzzleHttp\Psr7\Response(500));
+            return new Response(ResponseCodes::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    public function getUserById(int $id): Response
+    public function getUserById(int $id): ResponseInterface
     {
         try {
             return $this->apiService->getUserById($id);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->logger->critical('Error calling external API: ' . $e->getMessage());
 
-            return new Response(new \GuzzleHttp\Psr7\Response(500));
+            return new Response(ResponseCodes::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    public function createUser(array $params): Response
+    public function createUser(array $params): ResponseInterface
     {
         try {
             return $this->apiService->createUser($params);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->logger->critical('Error calling external API: ' . $e->getMessage());
 
-            return new Response(new \GuzzleHttp\Psr7\Response(500));
+            return new Response(ResponseCodes::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

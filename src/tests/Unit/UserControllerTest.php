@@ -16,19 +16,17 @@ class UserControllerTest extends TestCase
                 ->once()
                 ->with(2)
                 ->andReturn(
-                    new \Illuminate\Http\Client\Response(
-                        new \GuzzleHttp\Psr7\Response(
-                            body: json_encode(
-                            [
-                                'data' => [
-                                    'id'         => 1,
-                                    'email'      => 'mark_twen@gmail.com',
-                                    'first_name' => 'Mark',
-                                    'last_name'  => 'Twen',
-                                    'avatar'     => 'image'
-                                ]
-                            ])
-                        )
+                    new \GuzzleHttp\Psr7\Response(
+                        body: json_encode(
+                        [
+                            'data' => [
+                                'id'         => 1,
+                                'email'      => 'mark_twen@gmail.com',
+                                'first_name' => 'Mark',
+                                'last_name'  => 'Twen',
+                                'avatar'     => 'image'
+                            ]
+                        ])
                     )
                 );
         });
@@ -46,9 +44,7 @@ class UserControllerTest extends TestCase
                 ->once()
                 ->with(23)
                 ->andReturn(
-                    new \Illuminate\Http\Client\Response(
-                        new \GuzzleHttp\Psr7\Response(404)
-                    )
+                    new \GuzzleHttp\Psr7\Response(404)
                 );
         });
 
@@ -69,18 +65,14 @@ class UserControllerTest extends TestCase
                 ->once()
                 ->with($request)
                 ->andReturn(
-                    new \Illuminate\Http\Client\Response(
-                        new \GuzzleHttp\Psr7\Response(
-                            Response::HTTP_CREATED,
-                            body: json_encode(
-                            [
-                                'data' => [
-                                    'id'   => 1,
-                                    'name' => $request['name'],
-                                    'job'  => $request['job']
-                                ]
-                            ])
-                        )
+                    new \GuzzleHttp\Psr7\Response(
+                        Response::HTTP_CREATED,
+                        body: json_encode(
+                        [
+                            'id'   => 1,
+                            'name' => $request['name'],
+                            'job'  => $request['job']
+                        ])
                     )
                 );
         });
@@ -104,10 +96,8 @@ class UserControllerTest extends TestCase
                 ->once()
                 ->with($request)
                 ->andReturn(
-                    new \Illuminate\Http\Client\Response(
-                        new \GuzzleHttp\Psr7\Response(
-                            Response::HTTP_INTERNAL_SERVER_ERROR
-                        )
+                    new \GuzzleHttp\Psr7\Response(
+                        Response::HTTP_INTERNAL_SERVER_ERROR
                     )
                 );
         });
@@ -146,10 +136,8 @@ class UserControllerTest extends TestCase
             $mock->shouldReceive('getAllUsers')
                 ->once()
                 ->andReturn(
-                    new \Illuminate\Http\Client\Response(
-                        new \GuzzleHttp\Psr7\Response(
-                            body: file_get_contents(__DIR__ . '/data/users_data_part_page_1.json')
-                        )
+                    new \GuzzleHttp\Psr7\Response(
+                        body: file_get_contents(__DIR__ . '/data/users_data_part_page_1.json')
                     )
                 );
         });
@@ -171,10 +159,8 @@ class UserControllerTest extends TestCase
             $mock->shouldReceive('getAllUsers')
                 ->once()
                 ->andReturn(
-                    new \Illuminate\Http\Client\Response(
-                        new \GuzzleHttp\Psr7\Response(
-                            Response::HTTP_INTERNAL_SERVER_ERROR
-                        )
+                    new \GuzzleHttp\Psr7\Response(
+                        Response::HTTP_INTERNAL_SERVER_ERROR
                     )
                 );
         });
