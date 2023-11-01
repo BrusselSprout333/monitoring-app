@@ -2,14 +2,14 @@
 
 namespace App\Providers;
 
-use App\Cache\Cache;
 use App\Interfaces\ApiServiceInterface;
-use App\Logger\Logger;
 use App\Services\ApiCacheProxy;
 use App\Services\ApiErrorHandlingProxy;
 use App\Services\ApiService;
-use Illuminate\Http\Client\Factory;
 use Illuminate\Support\ServiceProvider;
+use Psr\Http\Client\ClientInterface;
+use Psr\SimpleCache\CacheInterface;
+use Psr\Log\LoggerInterface;
 
 class ApiServiceProvider extends ServiceProvider
 {
@@ -21,9 +21,10 @@ class ApiServiceProvider extends ServiceProvider
         $this->app->bind(ApiServiceInterface::class, function () {
             return new ApiErrorHandlingProxy(
                 new ApiCacheProxy(
-                    new ApiService(new Factory()),
-                    new Cache(dirname(__DIR__) . '/Cache/data')),
-                new Logger(dirname(__DIR__) . '/Logger/file.log')
+                    new ApiService($this->app->make(ClientInterface::class)),
+                    $this->app->make(CacheInterface::class)
+                ),
+                $this->app->make(LoggerInterface::class)
             );
         });
     }
