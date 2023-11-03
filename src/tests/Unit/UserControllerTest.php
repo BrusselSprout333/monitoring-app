@@ -20,7 +20,7 @@ class UserControllerTest extends TestCase
                         body: json_encode(
                         [
                             'data' => [
-                                'id'         => 1,
+                                'id'         => 2,
                                 'email'      => 'mark_twen@gmail.com',
                                 'first_name' => 'Mark',
                                 'last_name'  => 'Twen',

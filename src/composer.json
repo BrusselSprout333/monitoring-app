@@ -61,7 +61,9 @@
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "symfony/flex": false,
+            "symfony/runtime": false
         }
     },
     "minimum-stability": "stable",

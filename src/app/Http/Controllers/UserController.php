@@ -26,12 +26,12 @@ class UserController extends Controller
         $response = $this->apiService->createUser($userData);
 
         if (!$this->isSuccessful($response->getStatusCode())) {
-            return response()->json(status: $response->getStatusCode());
+            return new JsonResponse(status: $response->getStatusCode());
         }
 
         $responseContent = $response->getBody()->getContents();
 
-        return response()->json(['id' => (int)json_decode($responseContent)->id], $response->getStatusCode());
+        return new JsonResponse(['id' => (int)json_decode($responseContent)->id], $response->getStatusCode());
     }
 
     public function getAll(Request $request): JsonResponse
@@ -41,7 +41,7 @@ class UserController extends Controller
         $response = $this->apiService->getAllUsers($page);
 
         if (!$this->isSuccessful($response->getStatusCode())) {
-            return response()->json(status: $response->getStatusCode());
+            return new JsonResponse(status: $response->getStatusCode());
         }
 
         $responseContent = $response->getBody()->getContents();
@@ -51,7 +51,7 @@ class UserController extends Controller
         $collection = $this->collectUsers($usersData);
         $paginatedCollection = $this->paginateUsers($collection, $page, $lastPage);
 
-        return response()->json($paginatedCollection);
+        return new JsonResponse($paginatedCollection);
     }
 
     public function getById(int $id): JsonResponse
@@ -59,7 +59,7 @@ class UserController extends Controller
         $response = $this->apiService->getUserById($id);
 
         if (!$this->isSuccessful($response->getStatusCode())) {
-            return response()->json(status: $response->getStatusCode());
+            return new JsonResponse(status: $response->getStatusCode());
         }
 
         $responseContent = $response->getBody()->getContents();
@@ -67,7 +67,7 @@ class UserController extends Controller
 
         $user = new User($userData);
 
-        return response()->json($user->jsonSerialize());
+        return new JsonResponse($user->jsonSerialize());
     }
 
     private function collectUsers(iterable $users): Collection

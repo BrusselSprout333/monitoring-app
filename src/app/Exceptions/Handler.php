@@ -35,7 +35,7 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $e): \Illuminate\Http\Response|JsonResponse|RedirectResponse|Response
     {
         if ($e instanceof ValidationException && $request->header('Content-Type') === 'application/json') {
-            return response()->json(['errors' => $e->errors()], Response::HTTP_UNPROCESSABLE_ENTITY);
+            return new JsonResponse(['errors' => $e->errors()], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         return parent::render($request, $e);

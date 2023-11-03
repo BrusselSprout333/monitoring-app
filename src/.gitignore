@@ -19,3 +19,4 @@ yarn-error.log
 /.vscode
 app/Logger/file.log
 app/Cache/data/*
+/var
