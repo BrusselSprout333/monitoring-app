@@ -18,4 +18,4 @@ yarn-error.log
 /.idea
 /.vscode
 app/Logger/file.log
-app/Cache/data
+app/Cache/data/*
