@@ -14,6 +14,7 @@ install: \
 	install-docker-build \
 	install-composer-packages \
 	install-app-env-file \
+	make-cache-directory \
 	start
 
 install-docker-env-file:
@@ -37,6 +38,9 @@ install-composer-packages:
 install-app-env-file:
 	cp -f ./src/.env.example ./src/.env
 	cd ./docker && docker compose run --rm -u www-data app bash -c "php artisan key:generate"
+
+make-cache-directory:
+	cd ./src/app/Cache && mkdir "data"
 
 start:
 	cd ./docker && docker compose up -d
