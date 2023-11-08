@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class ApiTest extends TestCase
 {
-    public function test_get_all_users(): void
+    public function testGetAllUsers(): void
     {
         $apiService = new ApiService(new Guzzle(new Client()));
 
@@ -21,7 +21,7 @@ class ApiTest extends TestCase
             preg_replace('/\s+/', '', $response->getBody()->getContents()));
     }
 
-    public function test_get_user_by_id(): void
+    public function testGetUserById(): void
     {
         $apiService = new ApiService(new Guzzle(new Client()));
 
@@ -33,7 +33,7 @@ class ApiTest extends TestCase
             preg_replace('/\s+/', '', $response->getBody()->getContents()));
     }
 
-    public function test_create_user(): void
+    public function testCreateUser(): void
     {
         $apiService = new ApiService(new Guzzle(new Client()));
 
@@ -46,7 +46,7 @@ class ApiTest extends TestCase
         $this->assertStringContainsString('"id":', $content);
     }
 
-    public function test_get_empty_users_page(): void
+    public function testGetEmptyUsersPage(): void
     {
         $apiService = new ApiService(new Guzzle(new Client()));
 
@@ -58,7 +58,7 @@ class ApiTest extends TestCase
             preg_replace('/\s+/', '', $response->getBody()->getContents()));
     }
 
-    public function test_get_nonexistent_user(): void
+    public function testGetNonexistentUser(): void
     {
         $apiService = new ApiService(new Guzzle(new Client()));
 

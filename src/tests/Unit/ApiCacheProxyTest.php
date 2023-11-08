@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class ApiCacheProxyTest extends TestCase
 {
-    public function test_get_all_users_from_cache(): void
+    public function testGetAllUsersFromCache(): void
     {
         $apiService = $this->createMock(ApiService::class);
         $apiService->expects($this->never())->method('getAllUsers');
@@ -32,7 +32,7 @@ class ApiCacheProxyTest extends TestCase
             preg_replace('/\s+/', '', $response->getBody()->getContents()));
     }
 
-    public function test_get_all_users_from_origin(): void
+    public function testGetAllUsersFromOrigin(): void
     {
         $apiService = $this->createMock(ApiService::class);
         $apiService->expects($this->once())
@@ -65,7 +65,7 @@ class ApiCacheProxyTest extends TestCase
             preg_replace('/\s+/', '', $response->getBody()->getContents()));
     }
 
-    public function test_get_user_by_id_from_cache(): void
+    public function testGetUserByIdFromCache(): void
     {
         $apiService = $this->createMock(ApiService::class);
         $apiService->expects($this->never())->method('getUserById');
@@ -87,7 +87,7 @@ class ApiCacheProxyTest extends TestCase
             preg_replace('/\s+/', '', $response->getBody()->getContents()));
     }
 
-    public function test_get_user_bu_id_from_origin(): void
+    public function testGetUserByIdFromOrigin(): void
     {
         $apiService = $this->createMock(ApiService::class);
         $apiService->expects($this->once())

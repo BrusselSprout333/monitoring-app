@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class UserControllerTest extends TestCase
 {
-    public function test_get_user_by_id(): void
+    public function testGetUserById(): void
     {
         $this->mock(ApiServiceInterface::class, function (MockInterface $mock) {
             $mock->shouldReceive('getUserById')
@@ -37,7 +37,7 @@ class UserControllerTest extends TestCase
         $response->assertJsonStructure(['id', 'email', 'first_name', 'last_name', 'avatar']);
     }
 
-    public function test_cant_get_nonexistent_user_by_id(): void
+    public function testCantGetNonexistentUserById(): void
     {
         $this->mock(ApiServiceInterface::class, function (MockInterface $mock) {
             $mock->shouldReceive('getUserById')
@@ -53,7 +53,7 @@ class UserControllerTest extends TestCase
         $response->assertStatus(404);
     }
 
-    public function test_create_user()
+    public function testCreateUser()
     {
         $request = [
             'name' => 'Mark',
@@ -84,7 +84,7 @@ class UserControllerTest extends TestCase
             ->assertJsonStructure(['id']);
     }
 
-    public function test_create_user_on_api_error()
+    public function testCreateUserOnApiError()
     {
         $request = [
             'name' => 'Mark',
@@ -107,7 +107,7 @@ class UserControllerTest extends TestCase
         $response->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
-    public function test_cant_create_user_with_invalid_data()
+    public function testCantCreateUserWithInvalidData()
     {
         $request = [
             'name' => "",
@@ -130,7 +130,7 @@ class UserControllerTest extends TestCase
             ]);
     }
 
-    public function test_get_all_users_on_page_1()
+    public function testGetAllUsersOnPage1()
     {
         $this->mock(ApiServiceInterface::class, function (MockInterface $mock) {
             $mock->shouldReceive('getAllUsers')
@@ -153,7 +153,7 @@ class UserControllerTest extends TestCase
             ]);
     }
 
-    public function test_get_all_users_on_page_1_on_api_error()
+    public function testGetAllUsersOnPage1onApiError()
     {
         $this->mock(ApiServiceInterface::class, function (MockInterface $mock) {
             $mock->shouldReceive('getAllUsers')

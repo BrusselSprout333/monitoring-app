@@ -13,7 +13,7 @@ class CacheServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(CacheInterface::class, function () {
+        $this->app->singleton(CacheInterface::class, function () {
             return new Cache(dirname(__DIR__) . '/Cache/data');
         });
     }

@@ -13,7 +13,7 @@ class LoggerServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(LoggerInterface::class, function () {
+        $this->app->singleton(LoggerInterface::class, function () {
             return new Logger(dirname(__DIR__) . '/Logger/file.log');
         });
     }

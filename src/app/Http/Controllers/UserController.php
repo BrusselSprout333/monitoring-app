@@ -31,7 +31,7 @@ class UserController extends Controller
 
         $responseContent = $response->getBody()->getContents();
 
-        return new JsonResponse(['id' => (int)json_decode($responseContent)->id], $response->getStatusCode());
+        return new JsonResponse(['id' => (int)json_decode($responseContent, true)['id']], $response->getStatusCode());
     }
 
     public function getAll(Request $request): JsonResponse
@@ -45,8 +45,9 @@ class UserController extends Controller
         }
 
         $responseContent = $response->getBody()->getContents();
-        $usersData = json_decode($responseContent)->data;
-        $lastPage = json_decode($responseContent)->total_pages;
+        $decodedContent = json_decode($responseContent, true);
+        $usersData = $decodedContent['data'];
+        $lastPage = $decodedContent['total_pages'];
 
         $collection = $this->collectUsers($usersData);
         $paginatedCollection = $this->paginateUsers($collection, $page, $lastPage);
@@ -63,7 +64,7 @@ class UserController extends Controller
         }
 
         $responseContent = $response->getBody()->getContents();
-        $userData = get_object_vars(json_decode($responseContent)->data);
+        $userData = json_decode($responseContent, true)['data'];
 
         $user = new User($userData);
 

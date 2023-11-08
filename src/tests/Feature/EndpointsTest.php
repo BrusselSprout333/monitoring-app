@@ -6,7 +6,7 @@ use Tests\TestCase;
 
 class EndpointsTest extends TestCase
 {
-    public function test_can_see_main_page_on_root(): void
+    public function testCanSeeMainPageOnRoot(): void
     {
         $response = $this->get('/');
 
@@ -15,7 +15,7 @@ class EndpointsTest extends TestCase
         $response->assertViewIs('usersList');
     }
 
-    public function test_can_see_main_page(): void
+    public function testCanSeeMainPage(): void
     {
         $response = $this->get('/users');
 
@@ -24,7 +24,7 @@ class EndpointsTest extends TestCase
         $response->assertViewIs('usersList');
     }
 
-    public function test_can_see_create_page(): void
+    public function testCanSeeCreatePage(): void
     {
         $response = $this->get('/users/create');
 
@@ -33,7 +33,7 @@ class EndpointsTest extends TestCase
         $response->assertViewIs('createUser');
     }
 
-    public function test_can_see_page_with_user_data(): void
+    public function testCanSeePageWithUserData(): void
     {
         $response = $this->get('/users/2');
 

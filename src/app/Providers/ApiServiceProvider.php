@@ -18,7 +18,7 @@ class ApiServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(ApiServiceInterface::class, function () {
+        $this->app->singleton(ApiServiceInterface::class, function () {
             return new ApiErrorHandlingProxy(
                 new ApiCacheProxy(
                     new ApiService($this->app->make(ClientInterface::class)),
