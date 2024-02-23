@@ -1,0 +1,32 @@
+@font-face {
+    font-family: 'Nunito';
+    src: url('../assets/fonts/Nunito-VariableFont_wght.ttf');
+    font-style: normal;
+    font-display: swap;
+}
+
+* {
+    font-family: 'Nunito', sans-serif;
+}
+
+.navbar {
+    background-color: #000;
+    color: #fff;
+}
+
+.navbar-brand {
+    font-family: "Futura", monospace;
+}
+
+.nav-img {
+    width: 20px;
+}
+
+.nav-img:hover {
+    filter: brightness(0) invert(1);
+}
+
+.nav-item {
+    padding: 0 5px;
+}
+

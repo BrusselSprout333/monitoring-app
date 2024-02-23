@@ -2,31 +2,21 @@
 
 namespace App\Models;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Laravel\Sanctum\HasApiTokens;
 
-class User extends Model
+class User extends Authenticatable implements AuthenticatableContract
 {
-    protected $fillable = [
-        'name',
-        'job'
-    ];
+    use HasApiTokens;
 
-    protected $attributes = [
-        'id',
-        'email',
-        'first_name',
-        'last_name',
-        'avatar'
-    ];
-
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-
-        $this->attributes['id'] = $attributes['id'];
-        $this->attributes['email'] = $attributes['email'];
-        $this->attributes['first_name'] = $attributes['first_name'];
-        $this->attributes['last_name'] = $attributes['last_name'];
-        $this->attributes['avatar'] = $attributes['avatar'];
-    }
+    public $timestamps = false;
+//    protected $attributes = [
+//        'id',
+//        'password',
+//        'email',
+//        'first_name',
+//        'last_name'
+//    ];
 }

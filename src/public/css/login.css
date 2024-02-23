@@ -1,0 +1,48 @@
+body {
+    background-color: #f8f9fa;
+    color: #495057;
+}
+
+.form-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+}
+
+.form-container h2 {
+    color: #2e10ad;
+}
+
+.form-container p {
+    color: #6c757d;
+}
+
+.form-group label {
+    color: #2e10ad;
+}
+
+.form-control {
+    border: 1px solid #ced4da;
+}
+
+.btn-primary {
+    background-color: #2e10ad;
+    border-color: #2e10ad;
+}
+
+.btn-primary:hover {
+    background-color: #1a0858;
+    border-color: #1a0858;
+}
+
+.footer {
+    background-color: #2e10ad;
+    color: #fff;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}

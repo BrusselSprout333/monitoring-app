@@ -23,6 +23,24 @@ services:
         networks:
             - project_net
 
+    mysql:
+        container_name: ${COMPOSE_PROJECT_NAME}_mysql
+        image: mysql:latest
+        restart: always
+        environment:
+            MYSQL_USER: ${SQL_USERNAME}
+            MYSQL_DATABASE: ${SQL_DATABASE}
+            MYSQL_PASSWORD: ${SQL_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${SQL_ROOTPASS}
+        networks:
+            - project_net
+        volumes:
+            - mysql_data:/var/lib/mysql
+
 networks:
     project_net:
         name: ${COMPOSE_PROJECT_NAME}_network
+
+volumes:
+    mysql_data:
+        name: ${COMPOSE_PROJECT_NAME}_mysql_data

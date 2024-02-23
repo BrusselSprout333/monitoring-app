@@ -14,7 +14,8 @@ install: \
 	install-docker-build \
 	install-composer-packages \
 	install-app-env-file \
-	make-cache-directory \
+	install-docker-mysql \
+    migrate-and-seed \
 	start
 
 install-docker-env-file:
@@ -30,10 +31,10 @@ install-php-ini-files:
 	sed $(SED_INPLACE_FLAG) "s/XDEBUG_CLIENT_HOST/${XDEBUG_CLIENT_HOST}/" ./docker/php/assets/xdebug.ini
 
 install-docker-build:
-	cd ./docker && docker compose build
+	cd ./docker && docker-compose build
 
 install-composer-packages:
-	cd ./docker && docker compose run --rm -u www-data -it app bash -c "composer install"
+	cd ./docker && docker-compose run --rm -u www-data -it app bash -c "composer install"
 
 install-app-env-file:
 	cp -f ./src/.env.example ./src/.env
@@ -42,16 +43,28 @@ install-app-env-file:
 make-cache-directory:
 	cd ./src/app/Cache && mkdir "data"
 
+install-docker-mysql:
+	cd ./docker && docker-compose up -d mysql
+
+migrate-and-seed:
+	cd ./docker && docker-compose run --rm -u www-data app bash -c "php artisan migrate"
+
 start:
-	cd ./docker && docker compose up -d
-	@echo "Your application is available at: http://localhost:8087"
+	cd ./docker && docker-compose up -d
+	@echo "Your application is available at: http://localhost"
 
 stop:
-	cd ./docker && docker compose stop
+	cd ./docker && docker-compose stop
 
 clean:
 	cd ./docker && docker compose down -v
 	git clean -fdx -e .idea
 
 cli-php:
-	cd ./docker && docker compose run --rm -u www-data app bash -l
+	cd ./docker && docker-compose run --rm -u www-data app bash -l
+
+cli-db:
+	cd ./docker && docker-compose exec -it mysql mysql -p
+
+migrate:
+	cd ./docker && docker-compose exec app php artisan migrate

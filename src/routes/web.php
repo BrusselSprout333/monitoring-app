@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AssessmentController;
+use App\Http\Controllers\LoginController;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,8 +16,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/users', 'usersList')->name('users');
-Route::view('/', 'usersList');
-Route::view('/users/create', 'createUser')->name('createPage');
-Route::view('/users/{id}', 'userData')->name('userData')
-    ->where('id', '[0-9]+');
+Route::group(['middleware' => 'web'], function () {
+    Route::permanentRedirect('/', RouteServiceProvider::HOME);
+
+    Route::get('/login', [LoginController::class, 'showLoginPage'])->name('auth.login');
+    Route::get('/logout', [LoginController::class, 'logout'])->name('auth.logout');
+
+    Route::get('/', static function () {
+        return view('home');
+    })->name('home');
+
+    Route::post('/processRegister', [LoginController::class, 'register'])->name('register');
+    Route::post('/processLogin', [LoginController::class, 'login'])->name('login');
+
+    Route::get('/monitoringForm', static function () {
+        return view('monitoring-form');
+    })->name('monitoringForm');
+
+    Route::post('/monitoringAccess', [AssessmentController::class, 'showMonitorPage'])->name('showMonitorPage');
+    Route::post('/monitor', [AssessmentController::class, 'processCameraAccess'])->name('processCameraAccess');
+    Route::get('/results', [AssessmentController::class, 'monitorResults'])->name('monitorResults');
+});
+
+
+//TODO: ссылки на источники

@@ -13,11 +13,15 @@ RUN set -xeuo pipefail \
     libzip-dev \
     zip \
     unzip \
+    npm \
     libpng-dev \
     && docker-php-ext-install pdo_mysql gd zip \
     && /usr/local/bin/docker-install-composer \
     && mkdir -p ${APP_HOME} \
     && chown -R www-data:www-data ${APP_HOME}
+
+RUN apt-get update && apt-get install -y python3 python3-pip
+RUN apt-get install -y python3-opencv
 
 WORKDIR ${APP_HOME}
 

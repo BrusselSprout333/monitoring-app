@@ -13,7 +13,8 @@
         "psr/http-client": "^1.0",
         "psr/http-message": "^2.0",
         "psr/log": "^3.0",
-        "psr/simple-cache": "^3.0"
+        "psr/simple-cache": "^3.0",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "laravel/tinker": "^2.8",

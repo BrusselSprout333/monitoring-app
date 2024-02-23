@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +12,3 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/users', [UserController::class, 'getAll'])->name('getAll');
-Route::post('/users', [UserController::class, 'create'])->name('create');
-Route::get('/users/{id}', [UserController::class, 'getById'])->name('getById')
-    ->where('id', '[0-9]+');

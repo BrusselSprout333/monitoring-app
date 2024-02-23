@@ -1,0 +1,37 @@
+body {
+    background-color: #fff;
+    color: #000;
+}
+
+.btn-primary {
+    background-color: #2e10ad;
+    border-color: #2e10ad;
+}
+
+.jumbotron {
+    background-image: url('https://bipbap.ru/wp-content/uploads/2022/11/cover445.jpg');
+    background-size: cover;
+    color: #fff;
+    text-align: center;
+    padding: 100px;
+    margin-bottom: 0;
+    border-radius: 0;
+}
+
+.features {
+    padding: 50px 0;
+}
+
+.advantages {
+    margin-bottom: 200px;
+}
+
+.footer {
+    background-color: #2e10ad;
+    color: #fff;
+    padding: 10px 0 0 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
