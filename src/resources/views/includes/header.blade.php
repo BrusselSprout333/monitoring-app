@@ -6,11 +6,11 @@
         <ul class="navbar-nav ml-auto" id="menu-items">
             <li class="nav-item">
                 @if(\Illuminate\Support\Facades\Auth::check())
-                    <a class="nav-link" href="#"><img class="nav-img" src="{{ asset('assets/images/user.png') }}" width="20" alt=""></a>
+                    <a class="nav-link" href="{{ route('profilePage') }}"><img class="nav-img" src="{{ asset('assets/images/user.png') }}" width="20" alt=""></a>
                 @endif
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"><img class="nav-img" src="{{ asset('assets/images/camera.png') }}" width="20" alt=""></a>
+                <a class="nav-link" href="{{ route('monitorPage') }}"><img class="nav-img" src="{{ asset('assets/images/camera.png') }}" width="20" alt=""></a>
             </li>
             <li class="nav-item">
                 @if(\Illuminate\Support\Facades\Auth::check())

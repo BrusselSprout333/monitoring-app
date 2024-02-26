@@ -1,5 +1,0 @@
-short_open_tag = Off
-error_reporting = E_ALL
-date.timezone = Europe/Minsk
-max_execution_time = 30
-display_errors = On

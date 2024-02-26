@@ -1,0 +1,42 @@
+body {
+    background-color: #f8f9fa;
+    color: #495057;
+}
+
+.monitoring-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
+}
+
+.monitoring-container h2 {
+    color: #2e10ad;
+}
+
+.monitoring-container p {
+    color: #6c757d;
+}
+
+.footer {
+    background-color: #2e10ad;
+    color: #fff;
+    padding: 10px 0 0 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.btn-div {
+    display: flex;
+    justify-content: center;
+}
+
+#startMonitoringBtn {
+    background-color: #2e10ad;
+    width: 100%;
+    font-size: 18px;
+    letter-spacing: 0.05em;
+}

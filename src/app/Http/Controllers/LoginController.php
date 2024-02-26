@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -39,12 +40,10 @@ class LoginController extends Controller
             'loginPassword' => 'required|min:6|max:255',
         ]);
 
-        $user = User::where('email', $request->input('loginEmail'))
-            ->where('password', $request->input('loginPassword'))
-            ->first();
+        $user = User::where('email', $request->input('loginEmail'))->first();
 
-        if(!$user) {
-            return redirect()->back()->withErrors(['authError' => 'Пользователь с таким email или паролем не найден']);
+        if(!$user || !Hash::check($request->input('loginPassword'), $user->password)) {
+            return redirect()->back()->withErrors(['authError' => 'Пользователь с такой почтой или паролем не найден']);
         }
 
         Auth::login($user);
@@ -58,12 +57,24 @@ class LoginController extends Controller
             'registerName' => 'required|string|max:255',
             'registerEmail' => 'unique:App\Models\User,email|required|email|max:255',
             'registerPassword' => 'required|min:6|max:255',
+            'registerSurname' => 'nullable|string|max:255',
+            'registerGender' => 'nullable|in:male,female',
+            'registerAge' => 'nullable|numeric|min:1|max:150'
         ]);
 
         $user = new User();
         $user->first_name = $request->input('registerName');
         $user->email = $request->input('registerEmail');
-        $user->password = $request->input('registerPassword');
+        $user->password = Hash::make($request->input('registerPassword'));
+        if($request->input('registerSurname')) {
+            $user->last_name = $request->input('registerSurname');
+        }
+        if($request->input('registerGender')) {
+            $user->gender = $request->input('registerGender');
+        }
+        if($request->input('registerAge')) {
+            $user->age = $request->input('registerAge');
+        }
         $user->save();
 
         Auth::login($user);

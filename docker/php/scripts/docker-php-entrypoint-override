@@ -1,6 +1,0 @@
-#!/bin/bash
-
-set -euo pipefail
-
-# starting the original entry point
-exec docker-php-entrypoint "$@"

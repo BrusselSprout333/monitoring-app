@@ -28,7 +28,7 @@
                     <form action="{{ route('login') }}" method="post">
                         @csrf
                         <div class="form-group">
-                            <label for="loginEmail">Email:</label>
+                            <label for="loginEmail">Email: <span class="text-danger">*</span></label>
                             <input
                                 type="email"
                                 class="form-control @error('loginEmail') is-invalid @enderror"
@@ -36,20 +36,21 @@
                                 name="loginEmail"
                                 placeholder="Введите ваш Email"
                                 value="{{ old('loginEmail') }}"
+                                required
                             >
                         </div>
                         @error('loginEmail')
                             <p class="text-red-500">{{ $message }}</p>
                         @enderror
                         <div class="form-group">
-                            <label for="loginPassword">Пароль:</label>
+                            <label for="loginPassword">Пароль: <span class="text-danger">*</span></label>
                             <input
                                 type="password"
                                 class="form-control @error('loginPassword') is-invalid @enderror"
                                 id="loginPassword"
                                 name="loginPassword"
                                 placeholder="Введите ваш пароль"
-                                value="{{ old('loginPassword') }}"
+                                required
                             >
                         </div>
                         @error('loginPassword')
@@ -69,7 +70,7 @@
                     <form action="{{ route('register') }}" method="post">
                         @csrf
                         <div class="form-group">
-                            <label for="registerName">Имя:</label>
+                            <label for="registerName">Имя: <span class="text-danger">*</span></label>
                             <input
                                 type="text"
                                 class="form-control @error('registerName') is-invalid @enderror"
@@ -77,13 +78,28 @@
                                 name="registerName"
                                 placeholder="Введите ваше имя"
                                 value="{{ old('registerName') }}"
+                                required
                             >
                         </div>
                         @error('registerName')
                             <p class="text-red-500">{{ $message }}</p>
                         @enderror
                         <div class="form-group">
-                            <label for="registerEmail">Email:</label>
+                            <label for="registerSurname">Фамилия:</label>
+                            <input
+                                type="text"
+                                class="form-control @error('registerSurname') is-invalid @enderror"
+                                id="registerSurname"
+                                name="registerSurname"
+                                placeholder="Введите вашу фамилию"
+                                value="{{ old('registerSurname') }}"
+                            >
+                        </div>
+                        @error('registerSurname')
+                        <p class="text-red-500">{{ $message }}</p>
+                        @enderror
+                        <div class="form-group">
+                            <label for="registerEmail">Email: <span class="text-danger">*</span></label>
                             <input
                                 type="email"
                                 class="form-control @error('registerEmail') is-invalid @enderror"
@@ -91,25 +107,47 @@
                                 name="registerEmail"
                                 placeholder="Введите ваш Email"
                                 value="{{ old('registerEmail') }}"
+                                required
                             >
                         </div>
                         @error('registerEmail')
                             <p class="text-red-500">{{ $message }}</p>
                         @enderror
                         <div class="form-group">
-                            <label for="registerPassword">Пароль:</label>
+                            <label for="registerPassword">Пароль: <span class="text-danger">*</span></label>
                             <input
                                 type="password"
                                 class="form-control @error('registerPassword') is-invalid @enderror"
                                 id="registerPassword"
                                 name="registerPassword"
                                 placeholder="Введите пароль"
-                                value="{{ old('registerPassword') }}"
+                                required
                             >
                         </div>
                         @error('registerPassword')
                             <p class="text-red-500">{{ $message }}</p>
                         @enderror
+                        <div class="form-group">
+                            <label for="registerGender">Пол:</label>
+                            <select name="registerGender" class="form-control" id="registerGender">
+                                <option value="">Не выбрано</option>
+                                <option value="male" @if(old('registerGender') == 'Мужской') selected @endif>Мужской</option>
+                                <option value="female" @if(old('registerGender') == 'Женский') selected @endif>Женский</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerAge">Возраст:</label>
+                            <input
+                                type="number"
+                                class="form-control"
+                                id="registerAge"
+                                name="registerAge"
+                                min="1"
+                                max="150"
+                                value="{{ old('registerAge') }}"
+                            >
+                        </div>
+
                         <button type="submit" class="btn btn-primary">Создать аккаунт</button>
                     </form>
                 </div>
