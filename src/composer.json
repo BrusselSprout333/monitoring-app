@@ -6,6 +6,8 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "ext-pdo": "*",
+        "ext-readline": "*",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
@@ -14,7 +16,7 @@
         "psr/http-message": "^2.0",
         "psr/log": "^3.0",
         "psr/simple-cache": "^3.0",
-        "ext-pdo": "*"
+        "pusher/pusher-php-server": "^7.2"
     },
     "require-dev": {
         "laravel/tinker": "^2.8",

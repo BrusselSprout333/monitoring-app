@@ -1,6 +1,6 @@
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark">
-        <img src="{{ asset('assets/images/gaming-chair.png') }}" width="50" alt="" style="margin-right: 10px">
+        <a href="/"><img src="{{ asset('assets/images/gaming-chair.png') }}" width="50" alt="" style="margin-right: 10px"></a>
         <a class="navbar-brand" href="/">ComfortApp</a>
 
         <ul class="navbar-nav ml-auto" id="menu-items">
@@ -14,7 +14,7 @@
             </li>
             <li class="nav-item">
                 @if(\Illuminate\Support\Facades\Auth::check())
-                    <a class="nav-link" href="#"><img class="nav-img" src="{{ asset('assets/images/copy-alt.png') }}" width="20" alt=""></a>
+                    <a class="nav-link" href="{{ route('reports') }}"><img class="nav-img" src="{{ asset('assets/images/copy-alt.png') }}" width="20" alt=""></a>
                 @endif
             </li>
             <li class="nav-item">

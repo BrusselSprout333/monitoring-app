@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MonitoringData;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,9 @@ class ProfileController extends Controller
         /** @var User $user */
         $user = Auth::user();
 
-        return view('profile', ['user' => $user]);
+        $monitoringData = MonitoringData::where('userId', $user->id)->get();
+
+        return view('profile', ['user' => $user, 'monitoringData' => $monitoringData]);
     }
 
     public function showProfileEditPage()

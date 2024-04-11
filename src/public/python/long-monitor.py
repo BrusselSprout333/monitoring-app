@@ -1,9 +1,14 @@
+import sys
 import cgitb
 cgitb.enable()
 
 import time
 import csv
 import cv2
+import os
+
+def check_stop_flag():
+    return os.path.exists('python/stop_flag.txt')
 
 # Инициализируем веб-камеру
 cap = cv2.VideoCapture(0)
@@ -11,13 +16,16 @@ cap = cv2.VideoCapture(0)
 # Создаем классификатор лиц (можно использовать другой XML-файл)
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
+# Отключаем буферизацию stdout
+sys.stdout.flush()
+
 # Создаем CSV-файл для записи данных
-csv_file = open('python/face_data.csv', mode='w', newline='')
+csv_file = open('python/long_monitor.csv', mode='w', newline='')
 csv_writer = csv.writer(csv_file)
 csv_writer.writerow(['Time', 'Brightness', 'Face Coordinates', 'Face Area', 'Approximate Distance (cm)'])
 
 start_time = time.time()
-duration = 5  # Продолжительность выполнения программы (в секундах)
+duration = 36000  # Продолжительность выполнения программы (в секундах) 36000 - 10 ч
 
 # Физические параметры для расчета расстояния (примерные значения)
 # Фокусное расстояние камеры (мм)
@@ -57,15 +65,21 @@ while (time.time() - start_time) < duration:
         current_time = time.time()
         if current_time - last_save_time >= 1:
             csv_writer.writerow([current_time, brightness, (x, y, w, h), face_area, approximate_distance])
+            csv_file.flush()
             last_save_time = current_time
 
     # Отображение кадра
     cv2.imshow('Face and Brightness Detection', frame)
 
-    # Для завершения работы нажмите 'q' или Esc
+    # Для завершения работы нажмите Esc
     key = cv2.waitKey(1)
-    if key == ord('q') or key == 27:  # 27 - это код клавиши Esc
+    if key == 27:  # 27 - это код клавиши Esc
         break
+
+    if check_stop_flag():
+        csv_writer.writerow(['Received stop signal, exiting...'])
+        break
+
 
 # Закрываем CSV-файл и освобождаем ресурсы
 csv_file.close()

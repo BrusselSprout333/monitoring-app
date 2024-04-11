@@ -13,8 +13,8 @@
 
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark">
-        <img src="{{ asset('assets/images/gaming-chair.png') }}" width="50" alt="" style="margin-right: 10px">
-        <a class="navbar-brand" href="#">ComfortApp</a>
+        <a href="/"><img src="{{ asset('assets/images/gaming-chair.png') }}" width="50" alt="" style="margin-right: 10px"></a>
+        <a class="navbar-brand" href="/">ComfortApp</a>
     </nav>
 </header>
 

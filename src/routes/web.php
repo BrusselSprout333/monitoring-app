@@ -46,7 +46,13 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/avatar/delete', [ProfileController::class, 'deleteAvatar'])->name('deleteAvatar');
 
     Route::get('/monitoring', [MonitoringController::class, 'showMonitorPage'])->name('monitorPage');
-//    Route::post('/monitor', [AssessmentController::class, 'processCameraAccess'])->name('processCameraAccess');
+    Route::get('/longMonitoring', [MonitoringController::class, 'processLongMonitoring'])->name('longMonitoring');
+
+    Route::post('/flag', [MonitoringController::class, 'createFlag'])->name('create-flag');
+
+    Route::get('/reports', static function () {
+        return view('reports');
+    })->name('reports');
 });
 
 

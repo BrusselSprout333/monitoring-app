@@ -11,15 +11,4 @@ class User extends Authenticatable implements AuthenticatableContract
     use HasApiTokens;
 
     public $timestamps = false;
-
-//    protected $attributes = [
-//        'id',
-//        'password',
-//        'email',
-//        'first_name',
-//        'last_name',
-//        'avatar',
-//        'gender',
-//        'age'
-//    ];
 }
