@@ -1,0 +1,78 @@
+body {
+    background-color: #f8f9fa;
+    color: #495057;
+}
+
+.navbar-brand img {
+    margin-right: 10px;
+}
+
+.reports-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
+}
+
+.reports-container h2 {
+    color: #2e10ad;
+}
+
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.list-group-item:hover {
+    background-color: #e3e3e3;
+}
+
+.flex-link {
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+}
+
+.flex-link p {
+    margin: auto 10px auto 0;
+    text-decoration: none;
+    color: black;
+}
+
+.footer {
+    background-color: #2e10ad;
+    color: #fff;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.download-btn {
+    color: #fff;
+    background-color: #2e10ad;
+}
+
+.li-img {
+    width: 20px;
+}
+
+.pagination {
+    margin-top: 10px;
+}
+
+.pagination .page-link {
+    color: #2e10ad;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #2e10ad;
+    border-color: #2e10ad;
+    color: white;
+}

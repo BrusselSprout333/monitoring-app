@@ -81,17 +81,17 @@ class MonitoringService
 
     public function calculateRate($duration, $notificationFrequency): int
     {
-        $ratio = $duration !== 0 ? ($this->errorCount * $notificationFrequency / ($duration * 10)) : 7;
+        $ratio = $duration !== 0 ? ($this->errorCount * $notificationFrequency / ($duration * 10)) : 8;
 
-        return $ratio <= 0.2 ? 10
-            : ($ratio < 0.3 ? 9
-                : ($ratio < 0.5 ? 8
-                    : ($ratio < 0.8 ? 7
-                        : ($ratio < 1 ? 6
-                            : ($ratio < 2 ? 5
-                                : ($ratio < 3 ? 4
-                                    : ($ratio < 4 ? 3
-                                        : ($ratio < 5 ? 2
-                                            : ($ratio < 6 ? 1 : 0)))))))));
+        return $ratio <= 0.3 ? 10
+            : ($ratio < 0.5 ? 9
+                : ($ratio < 0.8 ? 8
+                    : ($ratio < 1 ? 7
+                        : ($ratio < 1.4 ? 6
+                            : ($ratio < 2.5 ? 5
+                                : ($ratio < 3.7 ? 4
+                                    : ($ratio < 4.8 ? 3
+                                        : ($ratio < 6 ? 2
+                                            : ($ratio < 7.2 ? 1 : 0)))))))));
     }
 }

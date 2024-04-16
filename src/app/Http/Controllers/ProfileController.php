@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MonitoringData;
 use App\Models\User;
+use App\Services\ReportService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;

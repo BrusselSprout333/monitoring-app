@@ -1,4 +1,4 @@
 /Users/nastya/test1/src/public/python/long-monitor.py:2: DeprecationWarning: 'cgitb' is deprecated and slated for removal in Python 3.13
   import cgitb
-2024-03-27 00:55:23.061 Python[99249:5081061] WARNING: AVCaptureDeviceTypeExternal is deprecated for Continuity Cameras. Please use AVCaptureDeviceTypeContinuityCamera and add NSCameraUseContinuityCameraDeviceType to your Info.plist.
-2024-03-27 00:55:24.384 Python[99249:5081061] WARNING: Secure coding is not enabled for restorable state! Enable secure coding by implementing NSApplicationDelegate.applicationSupportsSecureRestorableState: and returning YES.
+2024-04-16 16:47:04.342 Python[87341:5074660] WARNING: AVCaptureDeviceTypeExternal is deprecated for Continuity Cameras. Please use AVCaptureDeviceTypeContinuityCamera and add NSCameraUseContinuityCameraDeviceType to your Info.plist.
+2024-04-16 16:47:05.764 Python[87341:5074660] WARNING: Secure coding is not enabled for restorable state! Enable secure coding by implementing NSApplicationDelegate.applicationSupportsSecureRestorableState: and returning YES.

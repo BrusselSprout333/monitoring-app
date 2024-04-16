@@ -14,7 +14,7 @@
             </li>
             <li class="nav-item">
                 @if(\Illuminate\Support\Facades\Auth::check())
-                    <a class="nav-link" href="{{ route('reports') }}"><img class="nav-img" src="{{ asset('assets/images/copy-alt.png') }}" width="20" alt=""></a>
+                    <a class="nav-link" href="{{ route('reportsPage') }}"><img class="nav-img" src="{{ asset('assets/images/copy-alt.png') }}" width="20" alt=""></a>
                 @endif
             </li>
             <li class="nav-item">

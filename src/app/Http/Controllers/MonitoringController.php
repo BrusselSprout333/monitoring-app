@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MonitoringData;
 use App\Services\MonitoringService;
+use App\Services\ReportService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,7 +13,8 @@ class MonitoringController extends Controller
     private string $start;
 
     public function __construct(
-        private readonly MonitoringService $monitoringService
+        private readonly MonitoringService $monitoringService,
+        private readonly ReportService $reportService
     ) {
     }
 
@@ -32,6 +34,11 @@ class MonitoringController extends Controller
         echo 'Начато.';
         ob_flush();
 
+        while (file_exists('python/stop_flag.txt')) {
+            sleep(3);
+            unlink('python/stop_flag.txt');
+        }
+
         $lastBreakTime = time();
         $this->start = Carbon::now('Europe/Minsk');
 
@@ -39,7 +46,7 @@ class MonitoringController extends Controller
         $sleep = $notificationFrequency * 1.2;
 
         exec("python3 $pythonScriptPath > python/long_monitor.csv 2> python/error_log.txt & echo &");
-        sleep($notificationFrequency + 5);
+        sleep($notificationFrequency > 30 ? $notificationFrequency + 10 : $notificationFrequency + 5);
 
         $csvFileName = public_path('python/long_monitor.csv');
 
@@ -101,21 +108,22 @@ class MonitoringController extends Controller
             unlink('python/stop_flag.txt');
         }
 
+        if(Carbon::now('Europe/Minsk')->diffInMinutes($this->start) === 0) {
+            echo 'Сессия слишком короткая, она не будет сохранена';
+            ob_flush();
+
+            return;
+        }
+
         $this->saveSession($notificationFrequency);
 
-        echo 'saved.';
-        ob_flush();
-    }
-
-    public function createFlag(): void
-    {
-        $timestamp = date('Y-m-d H:i:s');
-        file_put_contents('python/stop_flag.txt', "$timestamp");
-
-        if (file_exists('python/stop_flag.txt')) {
-            sleep(3);
-            unlink('python/stop_flag.txt');
+        if(Auth::check()) {
+            echo 'Сессия сохранена и сгенерирован отчет';
+        } else {
+            echo 'Сессия сохранена';
         }
+
+        ob_flush();
     }
 
     private function saveSession($notificationFrequency): void
@@ -134,6 +142,8 @@ class MonitoringController extends Controller
             $data->rate = $this->monitoringService->calculateRate($data->duration, $notificationFrequency);
 
             $data->save();
+
+            $this->reportService->saveDataToReport($data);
         }
     }
 }

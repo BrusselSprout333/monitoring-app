@@ -4,6 +4,7 @@ use App\Http\Controllers\AssessmentController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportsController;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Route;
 
@@ -48,12 +49,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/monitoring', [MonitoringController::class, 'showMonitorPage'])->name('monitorPage');
     Route::get('/longMonitoring', [MonitoringController::class, 'processLongMonitoring'])->name('longMonitoring');
 
-    Route::post('/flag', [MonitoringController::class, 'createFlag'])->name('create-flag');
-
-    Route::get('/reports', static function () {
-        return view('reports');
-    })->name('reports');
+    Route::get('/reports', [ReportsController::class, 'showReportsPage'])->name('reportsPage');
+    Route::get('/report/{id}', [ReportsController::class, 'showReport'])->name('report');
 });
 
-
-//TODO: ссылки на источники

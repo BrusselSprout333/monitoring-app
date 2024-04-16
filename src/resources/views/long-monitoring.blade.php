@@ -7,51 +7,6 @@
     <link rel="stylesheet" href="{{ asset('css/monitoring.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <title>Мониторинг</title>
-    <style>
-        /* Добавим стили для модального окна */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-            animation-name: modalopen;
-            animation-duration: 0.4s;
-            max-width: 500px
-        }
-
-        @keyframes modalopen {
-            from {opacity: 0}
-            to {opacity: 1}
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-    </style>
 </head>
 <body>
 
@@ -110,9 +65,6 @@
                     <option value="20">20 сек</option>
                     <option value="30">30 сек</option>
                     <option value="60">1 мин</option>
-                    <option value="120">2 мин</option>
-                    <option value="300">5 мин</option>
-                    <option value="600">10 мин</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary settings-form-btn">Сохранить</button>
@@ -149,8 +101,14 @@
 
     function startMonitoring() {
         const button = $("#startMonitoringBtn");
-        button.removeClass("btn-primary").addClass("btn-danger").css("background-color", "firebrick").text("Завершить");
-        button.attr("onclick", "stopMonitoring()");
+        button.removeClass("btn-primary").text("Нажмите Esc на камере для завершения");
+        button.attr("onclick", "");
+        button.css({
+            "background-color": "white",
+            "color": "#2e10ad",
+            "border": "2px solid #2e10ad",
+            "cursor": "default"
+        });
 
         xhr = new XMLHttpRequest();
         xhr.open('GET', '{{ route("longMonitoring") }}', true);
@@ -172,38 +130,22 @@
                 }, 5000);
             }
             if (xhr.readyState === 4 && xhr.status === 200) {
-                $("#notification").removeClass('hidden').text("Сессия сохранена");
+                const sentences = xhr.responseText.split('.');
+                $("#notification").removeClass('hidden').text(sentences[sentences.length - 1]);
                 setTimeout(function() {
                     $("#notification").addClass('hidden');
                 }, 5000);
 
-                button.removeClass("btn-danger").addClass("btn-primary").css("background-color", "#2e10ad").text("Начать мониторинг");
+                button.removeClass("btn-onmonitor").addClass("btn-primary").text("Начать мониторинг");
                 button.attr("onclick", "startMonitoring()");
+                button.css({
+                    "background-color": "#2e10ad",
+                    "color": "white",
+                    "cursor": "pointer"
+                });
             }
         };
         xhr.send();
-    }
-
-    function stopMonitoring() {
-        const xhr4 = new XMLHttpRequest();
-        xhr4.open('POST', '{{ route('create-flag') }}');
-        xhr4.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr4.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
-        xhr4.send();
-
-        if (xhr) {
-            xhr.abort();
-        }
-
-        const button = $("#startMonitoringBtn");
-
-        $("#notification").removeClass('hidden').text("Сессия сохранена");
-        setTimeout(function() {
-            $("#notification").addClass('hidden');
-        }, 5000);
-
-        button.removeClass("btn-danger").addClass("btn-primary").css("background-color", "#2e10ad").text("Начать мониторинг");
-        button.attr("onclick", "startMonitoring()");
     }
 </script>
 </body>
