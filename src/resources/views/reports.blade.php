@@ -19,7 +19,7 @@
                 <h2 style="text-align: center; margin-bottom: 20px;">Отчеты</h2>
 
                 <form action="{{ route('reportsPage') }}" class="form-inline mb-3" method="GET">
-                    <input type="date" name="date" class="form-control mr-2" placeholder="Поиск по дате">
+                    <input type="date" name="date" class="form-control mr-2" value="{{ $_GET['date'] ?? '' }}" placeholder="Поиск по дате">
                     <button type="submit" class="btn btn-primary" style="background-color: #2e10ad">Искать</button>
                 </form>
 
@@ -36,7 +36,7 @@
                     @endforeach
                 </ul>
 
-                {{ $reports->links('pagination::bootstrap-4') }}
+                {{ $reports->appends(['date' => $date])->links('pagination::bootstrap-4') }}
                 @endif
             </div>
         </div>

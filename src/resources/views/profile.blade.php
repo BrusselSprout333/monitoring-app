@@ -51,7 +51,7 @@
         <div class="col-md-8 mx-auto">
             <div class="profile-stats">
                 <h3>Статистика</h3>
-                @if(!empty($monitoringData))
+                @if(!empty($monitoringData) && !empty($monitoringData[0]))
                     <div>
                         <canvas id="monitoringChart" width="800" height="400"></canvas>
                     </div>
@@ -230,11 +230,11 @@
         var prevIndex = lastIndex - 1;
 
         var lastValue = arr[lastIndex];
-        var prevValue = arr[prevIndex];
+        var prevValue = arr[prevIndex] ?? 0;
 
         if (lastValue > prevValue) {
             return '<span style="color: green;">' + lastValue + ' &#8593; </span>' + '<span style="color: grey; font-size: 14px;">' + prevValue + '</span>';
-        } else if (lastValue === prevValue) {
+        } else if (lastValue === prevValue || !prevValue) {
             return '<span style="color: black;">' + lastValue + ' - </span>' + '<span style="color: grey; font-size: 14px;">' + prevValue + '</span>';
         } else {
             return '<span style="color: red;">' + lastValue + ' &#8595; </span>' + '<span style="color: grey; font-size: 14px;">' + prevValue + '</span>';
